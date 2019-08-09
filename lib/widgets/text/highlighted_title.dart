@@ -16,7 +16,7 @@ class HighlightedTitle extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .body1
-              .copyWith(color: Colors.black, fontSize: 18.0)),
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 14.0)),
     );
   }
 }

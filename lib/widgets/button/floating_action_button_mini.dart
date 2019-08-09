@@ -9,8 +9,8 @@ class MiniFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: 36.0,
-        height: 36.0,
+        width: 32.0,
+        height: 32.0,
         child: FloatingActionButton(
           onPressed: _onTap,
           child: Icon(_icon),

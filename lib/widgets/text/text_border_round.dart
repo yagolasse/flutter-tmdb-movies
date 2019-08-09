@@ -9,7 +9,6 @@ class TextBorderRound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0.0, 0.0, 16.0, 0.0),
       padding: const EdgeInsets.all(8.0),
       decoration: _hasBorder
           ? BoxDecoration(
@@ -20,7 +19,7 @@ class TextBorderRound extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .body1
-              .copyWith(color: Colors.blueAccent, fontSize: 12.0)),
+              .copyWith(color: Colors.blueAccent, fontSize: 11.0)),
     );
   }
 }
