@@ -8,8 +8,7 @@ class HighlightedTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8.0),
-      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
+      padding: const EdgeInsets.only(left: 8.0),
       decoration: BoxDecoration(
         border: Border(left: BorderSide(width: 3.0, color: Colors.blueAccent)),
       ),

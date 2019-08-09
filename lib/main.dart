@@ -4,6 +4,8 @@ import 'package:movies_flutter/app_config.dart';
 import 'package:movies_flutter/repository/movie_repository.dart';
 import 'package:movies_flutter/screens/movie_detail.dart';
 
+import 'models/movie.dart';
+
 void main() {
   var configuredApp = AppConfig(
     appName: 'Movies Flutter',
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
     final config = AppConfig.of(context);
     return MaterialApp(
       title: config.appName,
-      home: MovieDetail(movie: MovieRepository(config.apiBaseUrl, config.apiKey).fetchById(11340)),
+      home: MovieDetail(movie: Movie(overview: '')/*MovieRepository(config.apiBaseUrl, config.apiKey).fetchById(11340)*/),
     );
   }
 }

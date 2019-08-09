@@ -14,19 +14,21 @@ class MetaDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        HighlightedTitle(_title),      
-      ]..addAll(_values.map((current) => _buildItem(context, current)).toList()),
+        Container(
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: HighlightedTitle(_title)),
+      ]..addAll(
+          _values.map((current) => _buildItem(context, current)).toList()),
     );
   }
 
   Widget _buildItem(BuildContext context, String current) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 4.0),
-        padding: const EdgeInsets.fromLTRB(8.0 + 3.0, 0.0, 0.0, 0.0),
+        margin: const EdgeInsets.only(left: 11.0, bottom: 4.0),
         child: Text(current,
             style: Theme.of(context)
                 .textTheme
                 .body1
-                .copyWith(color: Colors.black, fontSize: 14.0)));
+                .copyWith(color: Colors.grey[400], fontSize: 14.0)));
   }
 }

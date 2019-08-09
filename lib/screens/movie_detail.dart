@@ -2,89 +2,55 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/models/movie.dart';
 import 'package:movies_flutter/widgets/button/floating_action_button_mini.dart';
-import 'package:movies_flutter/widgets/text/highlighted_title.dart';
+import 'package:movies_flutter/widgets/image/blurred_image.dart';
 import 'package:movies_flutter/widgets/text/meta_display.dart';
+import 'package:movies_flutter/widgets/text/text_area.dart';
 import 'package:movies_flutter/widgets/text/text_border_round.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 const MAX_IMAGE_HEIGHT = 500.0;
 
 class MovieDetail extends StatelessWidget {
-  final Future<Movie> movie;
+  final Movie movie;
 
   MovieDetail({Key key, this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Movie>(
-        future: movie,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _dataScaffold(context, snapshot.data);
-          }
-          if (snapshot.hasError) {
-            return _errorScaffold(snapshot.error);
-          }
-          return _loadingScaffold();
-        });
+//    return FutureBuilder<Movie>(
+//        future: movie,
+//        builder: (context, snapshot) {
+//          if (snapshot.hasData) {
+    return _dataScaffold(context, this.movie /*snapshot.data*/);
+//          }
+//          if (snapshot.hasError) {
+//            return _errorScaffold(snapshot.error);
+//          }
+//          return _loadingScaffold();
+//        });
   }
 
-  Scaffold _dataScaffold(BuildContext context, Movie movie) {
-    final textWidth = MediaQuery.of(context).size.width * 0.6;
+  Widget _dataScaffold(BuildContext context, Movie movie) {
     return Scaffold(
-        appBar: AppBar(title: Text(movie.title)),
-        body: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          // FloatingActionButtonMini(Icons.arrow_back, () {}),
-          Column(children: [
-            _movieInfo(),
-            Center(
-            child: Row(children: <Widget>[
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                        "Why doesn't this text wrap? There's plenty of vertical space...")
-                  ],
-                ),
-              ),
-            ])
-        )
-            Column(children: [Flexible(child: Text(movie.overview))]),
-            // Container(width: textWidth, alignment: Alignment.centerLeft, child: Text(movie.overview)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MetaDisplay("Direção", ["Masamoru Oshii"]),
-                MetaDisplay("Roteiro", ["Masamune Shirow", "Kazunori Itô"])
-              ],
-            ),
-          ]),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+        body: Stack(children: [
+//      BlurredImage(movie.posterPath),
+      Container(
+        margin: const EdgeInsets.only(left: 48.0, top: 32.0),
+        child: Column(children: [
+          _movieInfo(),
+          TextArea(
+              'sifghasiudhfpsudhfpodufnpoudfASPDOFUHpasodfhohasdfoshdafoshadfoshdfoashdmnpvhxoczvhosuhrsovochvzxovh'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              FloatingActionButtonMini(Icons.arrow_back, () {}),
-              FloatingActionButtonMini(Icons.arrow_back, () {}),
+              MetaDisplay("Direção", ["Masamoru Oshii"]),
+              MetaDisplay("Roteiro", ["Masamune Shirow", "Kazunori Itô"]),
             ],
-          )
-          // Stack(
-          //   children: <Widget>[
-          //     Center(child: CircularProgressIndicator()),
-          //     Container(
-          //       padding: EdgeInsets.all(16.0),
-          //       constraints: BoxConstraints.expand(
-          //         height: MAX_IMAGE_HEIGHT,
-          //       ),
-          //       child: FadeInImage.memoryNetwork(
-          //         placeholder: kTransparentImage,
-          //         image: 'http://image.tmdb.org/t/p/w185//' + movie.posterPath,
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-        ]));
+          ),
+        ]),
+      ),
+      _buttonsSection()
+    ]));
   }
 
   Widget _movieInfo() {
@@ -97,10 +63,33 @@ class MovieDetail extends StatelessWidget {
     ]));
   }
 
-  Scaffold _errorScaffold(String errorMessae) {
+  Widget _buttonsSection() {
+    const mainMargin = EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0);
+    return Container(
+        margin: mainMargin,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            MiniFloatingActionButton(Icons.arrow_back, () {}),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 8.0),
+                  child: MiniFloatingActionButton(Icons.edit, () {}),
+                ),
+                MiniFloatingActionButton(Icons.share, () {}),
+              ],
+            )
+          ],
+        ));
+  }
+
+  Scaffold _errorScaffold(String errorMessage) {
     return Scaffold(
       appBar: AppBar(title: Text('Error')),
-      body: Center(child: Text(errorMessae)),
+      body: Center(child: Text(errorMessage)),
     );
   }
 
