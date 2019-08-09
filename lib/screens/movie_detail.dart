@@ -76,7 +76,7 @@ class MovieDetail extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(bottom: 8.0),
+                  margin: const EdgeInsets.only(bottom: 16.0),
                   child: MiniFloatingActionButton(Icons.edit, () {}),
                 ),
                 MiniFloatingActionButton(Icons.share, () {}),
