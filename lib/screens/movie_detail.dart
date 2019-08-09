@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/models/movie.dart';
+import 'package:movies_flutter/widgets/button/floating_action_button_mini.dart';
 import 'package:movies_flutter/widgets/text/highlighted_title.dart';
 import 'package:movies_flutter/widgets/text/meta_display.dart';
 import 'package:movies_flutter/widgets/text/text_border_round.dart';
@@ -19,7 +20,7 @@ class MovieDetail extends StatelessWidget {
         future: movie,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return _dataScaffold(snapshot.data);
+            return _dataScaffold(context, snapshot.data);
           }
           if (snapshot.hasError) {
             return _errorScaffold(snapshot.error);
@@ -28,47 +29,72 @@ class MovieDetail extends StatelessWidget {
         });
   }
 
-  Scaffold _dataScaffold(Movie movie) {
+  Scaffold _dataScaffold(BuildContext context, Movie movie) {
+    final textWidth = MediaQuery.of(context).size.width * 0.6;
     return Scaffold(
         appBar: AppBar(title: Text(movie.title)),
-        body: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        body: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          // FloatingActionButtonMini(Icons.arrow_back, () {}),
+          Column(children: [
+            _movieInfo(),
+            Center(
+            child: Row(children: <Widget>[
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                        "Why doesn't this text wrap? There's plenty of vertical space...")
+                  ],
+                ),
+              ),
+            ])
+        )
+            Column(children: [Flexible(child: Text(movie.overview))]),
+            // Container(width: textWidth, alignment: Alignment.centerLeft, child: Text(movie.overview)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MetaDisplay("Direção", ["Masamoru Oshii"]),
+                MetaDisplay("Roteiro", ["Masamune Shirow", "Kazunori Itô"])
+              ],
+            ),
+          ]),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextBorderRound(["16+"], true),
-              TextBorderRound(["1h 23m"]),
-              TextBorderRound(["Animation", "Action", "Crime"]),
-              TextBorderRound(["JP", "1995"]),
-            ],
-          ),
-          Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MetaDisplay("Direção", ["Masamoru Oshii"]),
-              MetaDisplay("Roteiro", ["Masamune Shirow", "Kazunori Itô"])
+              FloatingActionButtonMini(Icons.arrow_back, () {}),
+              FloatingActionButtonMini(Icons.arrow_back, () {}),
             ],
           )
+          // Stack(
+          //   children: <Widget>[
+          //     Center(child: CircularProgressIndicator()),
+          //     Container(
+          //       padding: EdgeInsets.all(16.0),
+          //       constraints: BoxConstraints.expand(
+          //         height: MAX_IMAGE_HEIGHT,
+          //       ),
+          //       child: FadeInImage.memoryNetwork(
+          //         placeholder: kTransparentImage,
+          //         image: 'http://image.tmdb.org/t/p/w185//' + movie.posterPath,
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+        ]));
+  }
 
-        ])
-        // Stack(
-        //   children: <Widget>[
-        //     Center(child: CircularProgressIndicator()),
-        //     Container(
-        //       padding: EdgeInsets.all(16.0),
-        //       constraints: BoxConstraints.expand(
-        //         height: MAX_IMAGE_HEIGHT,
-        //       ),
-        //       child: FadeInImage.memoryNetwork(
-        //         placeholder: kTransparentImage,
-        //         image: 'http://image.tmdb.org/t/p/w185//' + movie.posterPath,
-        //         fit: BoxFit.cover,
-        //       ),
-        //     ),
-        //   ],
-        // ),
-        );
+  Widget _movieInfo() {
+    return Container(
+        child: Row(children: [
+      TextBorderRound(["16+"], true),
+      TextBorderRound(["1h 23m"]),
+      TextBorderRound(["Animation", "Action", "Crime"]),
+      TextBorderRound(["JP", "1995"]),
+    ]));
   }
 
   Scaffold _errorScaffold(String errorMessae) {

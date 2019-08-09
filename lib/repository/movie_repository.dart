@@ -13,7 +13,7 @@ class MovieRepository {
   MovieRepository(this._apiBaseUrl, this._apiKey);
 
   Future<Movie> fetchById(int id) async {
-    final response = await http.get(_apiBaseUrl + MOVIE_URL + id.toString() + API_KEY_PREFIX + _apiKey);
+    final response = await http.get(_apiBaseUrl + MOVIE_URL + id.toString() + API_KEY_PREFIX + _apiKey + '&append_to_response=credits');
     if(response.statusCode == 200) {
       return Movie.fromJson(json.decode(response.body));
     } else {
