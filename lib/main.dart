@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     final config = AppConfig.of(context);
     return MaterialApp(
       title: config.appName,
-      home: MovieDetail(movie: Movie(overview: '')/*MovieRepository(config.apiBaseUrl, config.apiKey).fetchById(11340)*/),
+      home: MovieDetail(movie: MovieRepository(config.apiBaseUrl, config.apiKey).fetchById(11340)),
     );
   }
 }

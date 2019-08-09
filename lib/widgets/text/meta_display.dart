@@ -29,6 +29,6 @@ class MetaDisplay extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .body1
-                .copyWith(color: Colors.grey[400], fontSize: 14.0)));
+                .copyWith(fontWeight: FontWeight.bold, color: Colors.grey[400], fontSize: 14.0)));
   }
 }

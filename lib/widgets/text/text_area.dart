@@ -12,7 +12,10 @@ class TextArea extends StatelessWidget {
       Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(_value)],
+          children: [Text(_value, textAlign: TextAlign.justify, style: Theme.of(context)
+              .textTheme
+              .body1
+              .copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 14.0))],
         ),
       ),
     ]));
