@@ -7,16 +7,16 @@ class HighlightedTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle theme = Theme.of(context).textTheme.display1;
+    final EdgeInsets padding = EdgeInsets.only(left: 8.0);
+    final BorderSide borderSide =
+        BorderSide(width: 3.0, color: Colors.blueAccent);
+    final Border border = Border(left: borderSide);
+
     return Container(
-      padding: const EdgeInsets.only(left: 8.0),
-      decoration: BoxDecoration(
-        border: Border(left: BorderSide(width: 3.0, color: Colors.blueAccent)),
-      ),
-      child: Text(_value,
-          style: Theme.of(context)
-              .textTheme
-              .body1
-              .copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 14.0)),
+      padding: padding,
+      decoration: BoxDecoration(border: border),
+      child: Text(_value, style: theme),
     );
   }
 }

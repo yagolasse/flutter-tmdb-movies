@@ -7,15 +7,15 @@ class TextArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme.of(context).textTheme.display1;
+    final Text text =
+        Text(_value, textAlign: TextAlign.justify, style: textStyle);
     return Center(
         child: Row(children: [
       Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(_value, textAlign: TextAlign.justify, style: Theme.of(context)
-              .textTheme
-              .body1
-              .copyWith(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 14.0))],
+          children: [text],
         ),
       ),
     ]));

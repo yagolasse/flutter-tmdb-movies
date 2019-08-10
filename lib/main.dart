@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:movies_flutter/app_config.dart';
 import 'package:movies_flutter/repository/movie_repository.dart';
 import 'package:movies_flutter/screens/movie_detail.dart';
-
-import 'models/movie.dart';
+import 'package:movies_flutter/style.dart';
 
 void main() {
   var configuredApp = AppConfig(
@@ -25,7 +24,17 @@ class MyApp extends StatelessWidget {
     final config = AppConfig.of(context);
     return MaterialApp(
       title: config.appName,
-      home: MovieDetail(movie: MovieRepository(config.apiBaseUrl, config.apiKey).fetchById(11340)),
+      theme: _theme(),
+      home: MovieDetail(
+          movie: MovieRepository(config.apiBaseUrl, config.apiKey)
+              .fetchById(11340)),
     );
+  }
+
+  ThemeData _theme() {
+    return ThemeData(
+        appBarTheme: AppBarTheme(textTheme: TextTheme(title: AppBarTextStyle)),
+        textTheme: TextTheme(
+            title: MainTitleTextStyle, display1: Display1, display2: Display2));
   }
 }

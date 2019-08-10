@@ -6,23 +6,32 @@ class Credits {
   final List<Crew> directors;
   final List<Crew> writers;
 
+  final Function toCrewName = (crew) => crew.name;
+
   static const DIRECTING_DEPARTMENT = 'Directing';
   static const WRITING_DEPARTMENT = 'Writing';
 
   Credits({this.cast, this.directors, this.writers});
 
+  List<String> getDirectorsNames() {
+    return directors.map(toCrewName).toList();
+  }
+
+  List<String> getWritersNames() {
+    return writers.map(toCrewName).toList();
+  }
+
   factory Credits.fromJson(Map<String, dynamic> json) {
-    final crew = json['crew'] as List;
+    final mappedCrew =
+        (json['crew'] as List).map((current) => Crew.fromJson(current));
     return Credits(
         cast: (json['cast'] as List)
             .map((current) => Actor.fromJson(current))
             .toList(),
-        directors: crew
-            .map((current) => Crew.fromJson(current))
+        directors: mappedCrew
             .where((crew) => crew.department == DIRECTING_DEPARTMENT)
             .toList(),
-        writers: crew
-            .map((current) => Crew.fromJson(current))
+        writers: mappedCrew
             .where((crew) => crew.department == WRITING_DEPARTMENT)
             .toList());
   }

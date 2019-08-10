@@ -9,26 +9,25 @@ class MetaDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final EdgeInsets margin = EdgeInsets.only(bottom: 8.0);
+    final List<Widget> mappedItems =
+        _values.map((current) => _buildItem(context, current)).toList();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-            margin: const EdgeInsets.only(bottom: 8.0),
-            child: HighlightedTitle(_title)),
-      ]..addAll(
-          _values.map((current) => _buildItem(context, current)).toList()),
+        Container(margin: margin, child: HighlightedTitle(_title)),
+      ]..addAll(mappedItems),
     );
   }
 
   Widget _buildItem(BuildContext context, String current) {
-    return Container(
-        margin: const EdgeInsets.only(left: 11.0, bottom: 4.0),
-        child: Text(current,
-            style: Theme.of(context)
-                .textTheme
-                .body1
-                .copyWith(fontWeight: FontWeight.bold, color: Colors.grey[400], fontSize: 14.0)));
+    final EdgeInsets margin = EdgeInsets.only(left: 11.0, bottom: 4.0);
+    final TextStyle textStyle =
+        Theme.of(context).textTheme.display1.copyWith(color: Colors.grey[400]);
+
+    return Container(margin: margin, child: Text(current, style: textStyle));
   }
 }

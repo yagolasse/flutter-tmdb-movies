@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class BlurredImage extends StatelessWidget {
-  final String _url;
+  final NetworkImage _image;
 
-  BlurredImage(this._url);
+  BlurredImage(this._image);
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +14,9 @@ class BlurredImage extends StatelessWidget {
           height: 100.0,
         ),
         decoration: BoxDecoration(
-
           image: DecorationImage(
-            image: NetworkImage('http://image.tmdb.org/t/p/w185//' + _url),
+            image: _image,
             fit: BoxFit.fill,
-
           ),
         ),
         child: BackdropFilter(
