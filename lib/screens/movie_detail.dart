@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:movies_flutter/models/actor.dart';
 import 'package:movies_flutter/models/credits.dart';
 import 'package:movies_flutter/models/movie.dart';
 import 'package:movies_flutter/repository/image_repository.dart';
 import 'package:movies_flutter/widgets/button/floating_action_button_mini.dart';
+import 'package:movies_flutter/widgets/component/vertical_data_crossection.dart';
 import 'package:movies_flutter/widgets/image/blurred_image.dart';
 import 'package:movies_flutter/widgets/image/image_banner_round.dart';
 import 'package:movies_flutter/widgets/text/highlighted_title.dart';
 import 'package:movies_flutter/widgets/text/meta_display.dart';
+import 'package:movies_flutter/widgets/text/simple_title.dart';
 import 'package:movies_flutter/widgets/text/text_area.dart';
 import 'package:movies_flutter/widgets/text/text_border_round.dart';
 
@@ -24,49 +28,85 @@ class MovieDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-            future: movie, // a previously-obtained Future<String> or null
+            future: movie, // a previously-obtained Future<?> or null
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final Movie movie = snapshot.data;
 
+                final Credits credits = movie.credits;
+
                 final NetworkImage moviePoster = _imageRepository.loadFromApi(
-                    movie.posterPath, ImageRepository.Large);
+                  movie.posterPath,
+                  ImageRepository.Large,
+                );
 
-                final EdgeInsets globalMargins =
-                    EdgeInsets.only(left: 64.0, top: 128.0, right: 56.0);
+                final Widget metaDisplays = Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MetaDisplay("Directors", credits.getDirectorsNames()),
+                    MetaDisplay("Writers", credits.getWritersNames()),
+                  ],
+                );
 
-                final TextStyle titleTextStyle =
-                    Theme.of(context).textTheme.title;
+                final EdgeInsets globalMargins = EdgeInsets.only(
+                  left: 64.0,
+                  top: 64.0,
+                  right: 56.0,
+                );
 
-                final Container titleContainer = Container(
-                    margin: const EdgeInsets.only(top: 48.0),
-                    child: Text(movie.title,
-                        textAlign: TextAlign.start, style: titleTextStyle));
+                final List<String> yearCountryInfo = List<String>();
 
-                return Stack(children: [
-                  BlurredImage(moviePoster),
-                  SingleChildScrollView(
-                      child: Column(children: [
-                    titleContainer,
-                    Container(
-                      margin: globalMargins,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _spacedView(_movieInfo(movie)),
-                            _spacedView(TextArea(movie.overview)),
-                            _spacedView(_metaDisplays(movie)),
-                            _spacedView(HighlightedTitle("Cast")),
-                          ]),
+                yearCountryInfo.addAll(movie.getFormattedProductionCountries());
+
+                yearCountryInfo.add(movie.getReleasingYear());
+
+                final Container movieInfo = Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      //TODO: map certificates to rating
+                      //TextBorderRound(["16+"], true),
+                      TextBorderRound([movie.getFormattedRuntime()], true),
+                      TextBorderRound(movie.getFormattedGenres()),
+                      TextBorderRound(yearCountryInfo),
+                    ],
+                  ),
+                );
+                return Stack(
+                  children: [
+                    BlurredImage(moviePoster),
+                    SingleChildScrollView(
+                      child: VerticalDataCrossSection(null, [
+                        SimpleTitle(movie.title),
+                        VerticalDataCrossSection(globalMargins, [
+                          _spacedView(movieInfo),
+                          _spacedView(TextArea(movie.overview)),
+                          _spacedView(metaDisplays),
+                          _spacedView(HighlightedTitle("Cast")),
+                        ]),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20.0),
+                          height: 196.0,
+                          child: ListView.builder(
+                            itemCount: movie.credits.cast.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final Actor actor = movie.credits.cast[index];
+                              return CastBannerRound(actor);
+                            },
+                          ),
+                        ),
+                      ]),
                     ),
-                    ImageBannerRound(movie.credits.cast[0].profilePath)
-                  ])),
-                  _buttonsSection()
-                ]);
+                    _buttonsSection(),
+                  ],
+                );
               }
               if (snapshot.hasError) {
                 return Center(
-                    child: Text('An error has ocurred while loading'));
+                  child: Text('An error has ocurred while loading'),
+                );
               }
               return Center(child: CircularProgressIndicator());
             }));
@@ -74,38 +114,6 @@ class MovieDetail extends StatelessWidget {
 
   Widget _spacedView(Widget another) {
     return Container(margin: const EdgeInsets.only(top: 24.0), child: another);
-  }
-
-  Widget _movieInfo(Movie movie) {
-    final String formattedRuntime = movie.getFormattedRuntime();
-    final String releasingYear = movie.getReleasingYear();
-    final List<String> genres =
-        movie.genres.map((current) => current.name).toList();
-    final List<String> productionCountries =
-        movie.productionCountries.map((current) => current.iso31661).toList();
-    // add releasing year to show comma separated with countries
-    productionCountries.add(releasingYear);
-    return Container(
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      //TODO map certificates to rating
-      //TextBorderRound(["16+"], true),
-      TextBorderRound([formattedRuntime], true),
-      TextBorderRound(genres),
-      TextBorderRound(productionCountries),
-    ]));
-  }
-
-  Widget _metaDisplays(Movie movie) {
-    final Credits credits = movie.credits;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        MetaDisplay("Directors", credits.getDirectorsNames()),
-        MetaDisplay("Writers", credits.getWritersNames()),
-      ],
-    );
   }
 
   Widget _buttonsSection() {
@@ -126,7 +134,7 @@ class MovieDetail extends StatelessWidget {
                 ),
                 MiniFloatingActionButton(Icons.share, () {}),
               ],
-            )
+            ),
           ],
         ));
   }

@@ -5,20 +5,18 @@ class Credits {
   final List<Actor> cast;
   final List<Crew> directors;
   final List<Crew> writers;
-
-  final Function toCrewName = (crew) => crew.name;
-
+  
   static const DIRECTING_DEPARTMENT = 'Directing';
   static const WRITING_DEPARTMENT = 'Writing';
 
   Credits({this.cast, this.directors, this.writers});
 
   List<String> getDirectorsNames() {
-    return directors.map(toCrewName).toList();
+    return directors.map((crew) => crew.name).toList();
   }
 
   List<String> getWritersNames() {
-    return writers.map(toCrewName).toList();
+    return writers.map((crew) => crew.name).toList();
   }
 
   factory Credits.fromJson(Map<String, dynamic> json) {

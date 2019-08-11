@@ -57,4 +57,12 @@ class Movie {
   String getReleasingYear() {
     return releaseDate.substring(0, 4);
   }
+
+  List<String> getFormattedProductionCountries() {
+    return productionCountries.map((current) => current.iso31661).toList();
+  }
+
+  List<String> getFormattedGenres() {
+    return genres.map((current) => current.name).toList();
+  }
 }
