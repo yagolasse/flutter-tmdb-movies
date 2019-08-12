@@ -10,6 +10,8 @@ const MAX_IMAGE_HEIGHT = 500.0;
 class MovieDetail extends StatelessWidget {
   final Future<Movie> movie;
 
+  static const double MarginLeft = 64.0;
+
   MovieDetail({Key key, this.movie}) : super(key: key);
 
   @override

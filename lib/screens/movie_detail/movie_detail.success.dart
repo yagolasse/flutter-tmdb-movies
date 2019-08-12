@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies_flutter/app_config.dart';
 import 'package:movies_flutter/models/movie.dart';
 import 'package:movies_flutter/repository/image_repository.dart';
 import 'package:movies_flutter/screens/movie_detail/movie_detail.cast_list.dart';
@@ -19,7 +20,7 @@ class Success extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ImageRepository _imageRepository =
-        ImageRepository('http://image.tmdb.org/t/p/');
+        ImageRepository(AppConfig.of(context).apiImageUrl);
 
     final NetworkImage moviePoster = _imageRepository.loadFromApi(
       _movie.posterPath,

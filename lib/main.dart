@@ -10,6 +10,7 @@ void main() {
     appName: 'Movies Flutter',
     flavorName: 'production',
     apiBaseUrl: 'https://api.themoviedb.org/3/',
+    apiImageUrl: 'http://image.tmdb.org/t/p/',
     apiKey: '21ab19da35c8481721c284f94bd95e49',
     child: MyApp(),
   );

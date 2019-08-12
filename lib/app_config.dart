@@ -6,12 +6,14 @@ class AppConfig extends InheritedWidget {
   final String appName;
   final String flavorName;
   final String apiBaseUrl;
+  final String apiImageUrl;
   final String apiKey;
 
   AppConfig({
     @required this.appName,
     @required this.flavorName,
     @required this.apiBaseUrl,
+    @required this.apiImageUrl,
     @required this.apiKey,
     @required Widget child
   }) : super(child: child);

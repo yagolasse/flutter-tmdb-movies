@@ -1,31 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movies_flutter/models/actor.dart';
+import 'package:movies_flutter/widgets/image/image_banner_round.dart';
 
-class CastBannerRound extends StatelessWidget {
+class CastBanner extends StatelessWidget {
   final Actor _actor;
 
-  CastBannerRound(this._actor);
+  CastBanner(this._actor);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 12.0),
+        margin: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 12.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: new BorderRadius.circular(16.0),
-              child: Material(
-                elevation: 16.0,
-                child: Image.network(
-                  'http://image.tmdb.org/t/p/w185//' + _actor.profilePath,
-                  fit: BoxFit.cover,
-                  height: 128.0,
-                  width: 96.0,
-                ),
-              ),
-            ),
+          ImageBannerRound(),
             Text(
               _actor.name,
               textAlign: TextAlign.left,
