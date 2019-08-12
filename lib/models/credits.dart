@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:movies_flutter/models/actor.dart';
 import 'package:movies_flutter/models/crew.dart';
 
@@ -6,8 +8,8 @@ class Credits {
   final List<Crew> directors;
   final List<Crew> writers;
   
-  static const DIRECTING_DEPARTMENT = 'Directing';
-  static const WRITING_DEPARTMENT = 'Writing';
+  static const Director = 'Director';
+  static const Screenplay = 'Screenplay';
 
   Credits({this.cast, this.directors, this.writers});
 
@@ -27,10 +29,10 @@ class Credits {
             .map((current) => Actor.fromJson(current))
             .toList(),
         directors: mappedCrew
-            .where((crew) => crew.department == DIRECTING_DEPARTMENT)
+            .where((crew) => crew.job == Director)
             .toList(),
         writers: mappedCrew
-            .where((crew) => crew.department == WRITING_DEPARTMENT)
+            .where((crew) => crew.job == Screenplay)
             .toList());
   }
 }

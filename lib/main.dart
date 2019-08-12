@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movies_flutter/app_config.dart';
 import 'package:movies_flutter/repository/movie_repository.dart';
-import 'package:movies_flutter/screens/movie_detail.dart';
+import 'package:movies_flutter/screens/movie_detail/movie_detail.dart';
 import 'package:movies_flutter/style.dart';
 
 void main() {
