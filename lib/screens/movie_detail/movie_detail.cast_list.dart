@@ -27,8 +27,7 @@ class CastList extends StatelessWidget {
             itemCount: _cast.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              final Actor actor = _cast[index];
-              return CastBanner(actor);
+              return CastBanner(_cast[index]);
             },
           ),
         ),

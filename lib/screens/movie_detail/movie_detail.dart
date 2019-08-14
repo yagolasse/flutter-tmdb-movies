@@ -27,6 +27,7 @@ class MovieDetail extends StatelessWidget {
             return Success(snapshot.data);
           }
           if (snapshot.hasError) {
+            // TODO error state
           }
           return LoadingDefault();
         },

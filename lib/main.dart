@@ -27,15 +27,22 @@ class MyApp extends StatelessWidget {
       title: config.appName,
       theme: _theme(),
       home: MovieDetail(
-          movie: MovieRepository(config.apiBaseUrl, config.apiKey)
-              .fetchById(11340)),
+        movie: MovieRepository(
+          config.apiBaseUrl,
+          config.apiKey,
+        ).fetchById(384018),
+      ),
     );
   }
 
   ThemeData _theme() {
     return ThemeData(
-        appBarTheme: AppBarTheme(textTheme: TextTheme(title: AppBarTextStyle)),
-        textTheme: TextTheme(
-            title: MainTitleTextStyle, display1: Display1, display2: Display2));
+      appBarTheme: AppBarTheme(textTheme: TextTheme(title: AppBarTextStyle)),
+      textTheme: TextTheme(
+        title: MainTitleTextStyle,
+        display1: Display1,
+        display2: Display2,
+      ),
+    );
   }
 }
